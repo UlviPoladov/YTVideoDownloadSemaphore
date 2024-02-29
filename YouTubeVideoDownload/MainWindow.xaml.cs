@@ -37,6 +37,7 @@ namespace YouTubeVideoDownload
 
             if (muxedStreams.Any())
             {
+                semaphore.WaitOne();
                 var streamInfo = muxedStreams.First();
                 using var httpClient = new HttpClient();
                 var stream = await httpClient.GetStreamAsync(streamInfo.Url);
@@ -60,16 +61,17 @@ namespace YouTubeVideoDownload
                     var progressPercentage = (int)(bytesRead * 100.0 / totalBytes.Bytes);
 
                    
-                    semaphore.WaitOne();
+                    
                     try
                     {
                         Application.Current.Dispatcher.Invoke(() => progressBar.Value = progressPercentage);
                     }
                     finally
                     {
-                        semaphore.Release();
+                        
                     }
                 }
+                semaphore.Release();
                 MessageBox.Show("Download completed!");
                 MessageBox.Show($"Video saved as: {outputFilePath} \n{datetime}");
                 progressBar.Value = 0;
