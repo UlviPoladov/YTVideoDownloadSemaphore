@@ -95,6 +95,7 @@ namespace YouTubeVideoDownload
 
             progressBar.Value = 0;
             await downloadmethod(youtubelinktxt.Text, outputDirectory, progressBar);
+            youtubelinktxt.Text = string.Empty;
         }
     }
 }
