@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -84,7 +84,15 @@ namespace YouTubeVideoDownload
 
         private async void downloadbtn_Click(object sender, RoutedEventArgs e)
         {
-            string outputDirectory = @"C:\Users\ulvip\Desktop";
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string outputDirectory = Path.Combine(desktopPath, "YouTubeDownloads");
+
+            
+            if (!Directory.Exists(outputDirectory))
+            {
+                Directory.CreateDirectory(outputDirectory);
+            }
+
             progressBar.Value = 0;
             await downloadmethod(youtubelinktxt.Text, outputDirectory, progressBar);
         }
